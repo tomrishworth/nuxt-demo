@@ -6,7 +6,7 @@
         rpr-vue
       </h1>
       <h2 class="subtitle">
-        Nuxt.js project
+        My test project
       </h2>
       <div class="links">
         <a
