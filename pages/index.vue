@@ -1,35 +1,76 @@
 <template>
   <section class="container">
     <div>
-      <app-logo/>
       <h1 class="title">
-        rpr-vue
+
       </h1>
       <h2 class="subtitle">
         My test project
       </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
+
+      <div :key="index" v-for="(teamMember, index) in teamMembers">
+        <h3>{{ teamMember.fields.name }}</h3>
+        <p>{{ teamMember.fields.bio }}</p>
       </div>
+
     </div>
   </section>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
+
+import {createClient} from '~/plugins/contentful.js'
+
+const client = createClient()
 
 export default {
-  components: {
-    AppLogo
+  // `env` is available in the context object
+
+  data() {
+    // declare message with an empty value
+    return {
+      teamMembers: ''
+    }
+  },
+  asyncData ({env}) {
+    return Promise.all([
+      // fetch the owner of the blog
+      // client.getEntries({
+      //   'sys.id': env.CTF_PERSON_ID
+      // }),
+      // client.fetchEntriesForContentType()
+      // fetch all blog posts sorted by creation date
+      client.getEntries({
+        'content_type': 'teamMember',
+
+      })
+    ]).then((entries) => {
+      // return data that should be available
+      // in the template
+      console.log(entries);
+      return {
+        teamMembers: entries[0].items
+      }
+      // this.teamMembers = entries[0].items[0]
+      // return this.teamMembers = 'TEst'
+      // return {
+      // }
+      // return {
+      //   // teamMember: entries.items
+      //   teamMember: "Hello"
+      // }
+      // entries.forEach((entry) => {
+      //   // console.log(entry.items[0].fields.name);
+      //   console.log(entry);
+
+      // })
+      // // return {
+      //   person: entry.fields[contentType.displayField],
+      // }
+    }).catch(console.error)
   }
 }
+
 </script>
 
 <style>
