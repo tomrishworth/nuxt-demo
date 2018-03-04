@@ -11,6 +11,7 @@
       <div :key="index" v-for="(teamMember, index) in teamMembers">
         <h3>{{ teamMember.fields.name }}</h3>
         <p>{{ teamMember.fields.bio }}</p>
+        <img v-if="teamMember.fields.image" :src="teamMember.fields.image.fields.file.url + '?w=100&h=100;fit=crop'"/>
       </div>
 
     </div>
@@ -34,39 +35,19 @@ export default {
   },
   asyncData ({env}) {
     return Promise.all([
-      // fetch the owner of the blog
-      // client.getEntries({
-      //   'sys.id': env.CTF_PERSON_ID
-      // }),
-      // client.fetchEntriesForContentType()
-      // fetch all blog posts sorted by creation date
+
       client.getEntries({
+        // 'order': 'name',
         'content_type': 'teamMember',
 
       })
     ]).then((entries) => {
-      // return data that should be available
-      // in the template
+
       console.log(entries);
       return {
         teamMembers: entries[0].items
       }
-      // this.teamMembers = entries[0].items[0]
-      // return this.teamMembers = 'TEst'
-      // return {
-      // }
-      // return {
-      //   // teamMember: entries.items
-      //   teamMember: "Hello"
-      // }
-      // entries.forEach((entry) => {
-      //   // console.log(entry.items[0].fields.name);
-      //   console.log(entry);
 
-      // })
-      // // return {
-      //   person: entry.fields[contentType.displayField],
-      // }
     }).catch(console.error)
   }
 }
