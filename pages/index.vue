@@ -14,6 +14,21 @@
         <img v-if="teamMember.fields.image" :src="teamMember.fields.image.fields.file.url + '?w=100&h=100;fit=crop'"/>
       </div>
 
+      <form name="contact" method="POST" netlify>
+        <p>
+          <label>Your Name: <input type="text" name="name"></label>
+        </p>
+        <p>
+          <label>Your Email: <input type="email" name="email"></label>
+        </p>
+        <p>
+          <label>Message: <textarea name="message"></textarea></label>
+        </p>
+        <p>
+          <button type="submit">Send</button>
+        </p>
+      </form>
+
     </div>
   </section>
 </template>
